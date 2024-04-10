@@ -1,0 +1,19 @@
+env:
+  browser: true
+  es2021: true
+globals:
+  config: true
+  query: true
+  moment: true
+  schedule: true
+  fs: true
+  process: true
+  require: true
+  global: true
+  sleep: true
+extends: eslint:recommended
+overrides: []
+parserOptions:
+  ecmaVersion: latest
+  sourceType: module
+rules: {}
