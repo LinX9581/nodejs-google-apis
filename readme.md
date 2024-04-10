@@ -25,7 +25,7 @@ add GOOGLE_CLIENT_EMAIL to ga and sheet viewer permissions
 
 ## GA4
 
-* test
+* test  
 curl http://127.0.0.1:4004/ga/ga4/{ga4_view_id}/{start_date}/{end_date}/{dimensions}/{metrics}  
 curl http://127.0.0.1:4004/ga/ga4/274947839/2024-04-03/2024-04-05/date/screenPageViews,newUsers  
 
@@ -103,10 +103,11 @@ orderBys: [
 ```
 
 ## Bigquery
-* test
+* test  
 ./component/bigquery/bigquery.js
 
 ## Sheet
+* test  
 ./component/gs/sheetSample.js
 
 ## Oauth
