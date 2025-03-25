@@ -20,4 +20,10 @@ export default {
   sheetId: {
     test: "",
   },
+  prod: {
+    port: 4004,
+  },
+  auth: {
+    key: "test"
+  }
 };

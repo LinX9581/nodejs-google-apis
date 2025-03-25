@@ -11,7 +11,7 @@ import youtubeRouter from './routes/youtubeRouter.js'
 const app = express();
 const http = require('http').Server(app);
 const host = '0.0.0.0';
-const port = process.env.PORT || 4004;
+const port = config.prod.port;
 
 app.use(bodyParser.json());
 app.set("views", "views/");

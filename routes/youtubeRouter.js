@@ -1,58 +1,49 @@
 import * as youtube from "../component/youtube/youtubeSample";
 import express from "express";
+import config from "../config"; // 假設 config 從某處匯入
 
 const router = express.Router();
 
-router.post("/getVideo", async function (req, res) {
-  if (req.headers.authorization == config.auth.key) {
-    let videoId = req.body.videoId;
-    let response = await youtube.getVideo(videoId);
-    res.send(response);
-  } else {
-    res.send("Error Code 403 : Invalid Key");
+// 避免 API 被濫用，設定簡單的身份驗證
+const authenticate = (req, res, next) => {
+  if (req.headers.authorization !== config.auth.key) {
+    return res.status(403).send("Error Code 403: Invalid Key");
   }
-});
+  next();
+};
 
-router.post("/getAllVideoDetail", async function (req, res) {
-  if (req.headers.authorization == config.auth.key) {
-    let videoId = req.body.videoId;
-    let response = await youtube.getAllVideoDetail(videoId);
-    res.send(response);
-  } else {
-    res.send("Error Code 403 : Invalid Key");
+const asyncHandler = (fn) => async (req, res, next) => {
+  try {
+    await fn(req, res, next);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    res.status(500).send("Internal Server Error");
   }
-});
+};
 
-router.post("/getPlaylistItem", async function (req, res) {
-  if (req.headers.authorization == config.auth.key) {
-    let videoId = req.body.videoId;
-    let response = await youtube.getPlaylistItem(videoId);
-    res.send(response);
-  } else {
-    res.send("Error Code 403 : Invalid Key");
-  }
-});
+router.post("/getVideo", authenticate, asyncHandler(async (req, res) => {
+  const { videoId } = req.body;
+  res.send(await youtube.getVideo(videoId));
+}));
 
-router.post("/deleteVideoFromPlaylist", async function (req, res) {
-  if (req.headers.authorization == config.auth.key) {
-    let playlistId = req.body.playlistId;
-    let itemId = req.body.itemId;
-    let response = await youtube.deleteVideoFromPlaylist(playlistId, itemId);
-    res.send(response);
-  } else {
-    res.send("Error Code 403 : Invalid Key");
-  }
-});
+router.post("/getAllVideoDetail", authenticate, asyncHandler(async (req, res) => {
+  const { videoId } = req.body;
+  res.send(await youtube.getAllVideoDetail(videoId));
+}));
 
-router.post("/updateVideoStatus", async function (req, res) {
-  if (req.headers.authorization == config.auth.key) {
-    let videoId = req.body.videoId;
-    let videoStatus = req.body.videoStatus;
-    let response = await youtube.updateVideoStatus(videoId, videoStatus);
-    res.send(response);
-  } else {
-    res.send("Error Code 403 : Invalid Key");
-  }
-});
+router.post("/getPlaylistItem", authenticate, asyncHandler(async (req, res) => {
+  const { videoId } = req.body;
+  res.send(await youtube.getPlaylistItem(videoId));
+}));
+
+router.post("/deleteVideoFromPlaylist", authenticate, asyncHandler(async (req, res) => {
+  const { playlistId, itemId } = req.body;
+  res.send(await youtube.deleteVideoFromPlaylist(playlistId, itemId));
+}));
+
+router.post("/updateVideoStatus", authenticate, asyncHandler(async (req, res) => {
+  const { videoId, videoStatus } = req.body;
+  res.send(await youtube.updateVideoStatus(videoId, videoStatus));
+}));
 
 export default router;

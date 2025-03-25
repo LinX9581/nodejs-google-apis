@@ -111,14 +111,28 @@ orderBys: [
 ./component/gs/sheetSample.js
 
 ## Oauth
-1. Get Credentials  
-GCP -> APIs & Services -> Credentails -> CREATE CREDENCIALS -> Create OAuth client ID -> Web application  
-Input name , root doamin , root domain/oauth  
+1. Configure Consent Screen
+GCP -> APIs & Services -> Credentails 
+Configure Consent Screen -> App Name -> User Support Email -> External -> Save
 
-2. Get clientId clientSecret redirectUrl  
-domain bind 4004 port & login google account to get tokens
+2. Create OAuth client ID
+Create OAuth client ID -> Web application  
+Input name , subdomain , subdomain/oauth , save  
 
-3. Scopes choose what you want  
+3. Input clientId clientSecret to config.js  
+```
+  googleOauth: {
+    clientSecret: "",
+    clientId: "",
+    redirectUrl: "test.com/oauth",
+  },
+```
+
+4. Get Credentails token  
+brower subdomain & using test account login google account to get token  
+token will be saved to /root/.oauth/oauth.json  
+  
+5. Scopes choose what you want  
 ```
 const scopes = [
     'https://www.googleapis.com/auth/youtube',
@@ -128,13 +142,16 @@ const scopes = [
 ];
 ```
 
+6. Enable API
+YouTube Data API v3
+
 ## Youtube Note
 
 * test
 ```
 curl --location 'https://{oauth_domain}/youtube/getVideo' \
 --header 'Content-Type: application/json' \
---header 'authorization: config.auth.key' \
+--header 'authorization: test' \
 --data '{
     "videoId": "youtube_id"
 }'
