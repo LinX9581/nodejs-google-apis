@@ -10,7 +10,7 @@
 git clone https://github.com/LinX9581/nodejs-googleApis  
 cd nodejs-googleApis  
 yarn install  
-mv config-sample.js config.js (Set Google Credentials)  
+cp config-sample.js config.js (Set Google Credentials)  
 yarn start  
 
 add GOOGLE_CLIENT_EMAIL to ga and sheet viewer permissions  
@@ -25,7 +25,7 @@ add GOOGLE_CLIENT_EMAIL to ga and sheet viewer permissions
 
 ## GA4
 
-* test  
+* ./routes/index-router.js  
 curl http://127.0.0.1:4004/ga/ga4/{ga4_view_id}/{start_date}/{end_date}/{dimensions}/{metrics}  
 curl http://127.0.0.1:4004/ga/ga4/274947839/2024-04-03/2024-04-05/date/screenPageViews,newUsers  
 
@@ -57,50 +57,6 @@ https://developers.google.com/analytics/devguides/reporting/data/v1/realtime-api
 https://7nohe-tech-blog.vercel.app/post/node-js-google-analytics-4-ga4-contentful-google-analytics-data-api
 https://googleapis.dev/nodejs/analytics-data/latest/
 https://stackoverflow.com/users/14466144/brett
-
-* rest api -> ./routes/index-router.js  
-https://dns.sample.com/ga4/308596645/2022-10-25/2022-10-30/date/screenPageViews
-
-* Request Body  
-[Official Document]
-(https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/batchRunReports)
-
-```
-property: `properties/${propertyId}`,
-dimensions: [
-  {
-    name: 'date',
-  },
-],
-metrics: [
-  {
-    name: 'activeUsers',
-  },
-  {
-    name: 'newUsers',
-  },
-],
-dateRanges: [
-  {
-    startDate: '7daysAgo',
-    endDate: 'today',
-  },
-],
-dimensionFilter: {
-  filter: {
-    fieldName: "firstUserSource",
-    stringFilter: { matchType: "CONTAINS", value: 'google', caseSensitive: false }
-  }
-},
-orderBys: [
-  {
-    metric: {
-      metricName: 'totalRevenue',
-    },
-    desc: true,
-  },
-],
-```
 
 ## Bigquery
 * test  

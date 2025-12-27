@@ -1,28 +1,19 @@
-import * as googleApis from '../api/googleApis/gaCustom'
-import '../component/bigquery/bigquery'
-import '../component/gs/sheetSample'
-import '../component/youtube/youtubeSample'
-import '../component/ga/gaSample'
+import * as googleApis from "../api/googleApis/gaCustom.js";
+import '../component/bigquery/bigquery.js';
+import '../component/gs/sheetSample.js';
+import '../component/youtube/youtubeSample.js';
+import '../component/ga/gaSample.js';
+import config from "../config.js";
 
 // test()
 export async function test() {
     try {
         let gaDate = moment(new Date()).add(-1, 'days').format('YYYY-MM-DD');
 
-        // ga3
-        let ga3Data = await googleApis.gaCustom(config.gaViewId.ga3AllIds, gaDate, gaDate, "ga:pageviews, ga:1dayUsers, ga:sessions, ga:pageviewsPerSession", "ga:date");
-        console.log(ga3Data);
-
         // ga4
-        let ga4Data = await googleApis.ga4Custom(config.gaViewId.ga4AllIds, gaDate, gaDate, 'screenPageViews', 'pageTitle');
+        let ga4Data = await googleApis.ga4Custom(config.gaViewId.ga4AllIds, gaDate, gaDate, [{ name: "screenPageViews" }], [{ name: "pageTitle" }]);
         console.log(ga4Data);
 
-        // sheet
-        await googleApis.updateGsSheet(config.sheetId.test, 'test1' + '!A1', [
-            ['1asdasd']
-        ])
-
-        await googleApis.createGsSheet(config.sheetId.test, '123')
         await sleep(1000)
     } catch (error) {
         console.log(error);

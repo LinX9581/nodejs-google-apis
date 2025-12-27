@@ -8,6 +8,7 @@ export default {
     clientSecret: "",
     clientId: "",
     redirectUrl: "",
+    fromEmail: "",
   },
   gaViewId: {
     ga4AllIds: "",

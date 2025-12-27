@@ -1,15 +1,14 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import './global'
-import './schedule/allSchedule'
+import './global.js'
+import './schedule/allSchedule.js'
 import './component/ga/ga4Traffic.js'
 import oauthRouter from './routes/oauthRouter.js'
 import gaRouter from './routes/gaRouter.js'
 import youtubeRouter from './routes/youtubeRouter.js'
 
 const app = express();
-const http = require('http').Server(app);
 const host = '0.0.0.0';
 const port = config.prod.port;
 
@@ -22,6 +21,6 @@ app.use('/', oauthRouter);
 app.use('/ga', gaRouter);
 app.use('/youtube', youtubeRouter);
 
-http.listen(port, host, function() {
-    console.log("Server started on " + port);
+app.listen(port, host, function() {
+  console.log("Server started on port " + port);
 });

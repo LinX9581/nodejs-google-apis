@@ -1,15 +1,14 @@
 import fs from 'fs'
 import { google } from 'googleapis'
 import express from 'express'
+import config from '../config.js'
 
 const router = express.Router();
 const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(config.googleOauth.clientId, config.googleOauth.clientSecret, config.googleOauth.redirectUrl);
 const scopes = [
     'https://www.googleapis.com/auth/youtube',
-    'https://www.googleapis.com/auth/webmasters',
-    'https://www.googleapis.com/auth/webmasters.readonly',
-    'https://www.googleapis.com/auth/bigquery'
+    'https://www.googleapis.com/auth/gmail.send'
 ];
 
 router.get('/', function(req, res) {

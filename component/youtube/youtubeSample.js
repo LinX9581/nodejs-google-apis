@@ -5,7 +5,7 @@ import fs from "fs";
 const oauth2Client = new google.auth.OAuth2(config.googleOauth.clientId, config.googleOauth.clientSecret, config.googleOauth.redirectUrl);
 
 // 執行完 oauth domain 登入帳號後會取得一組 token 再執行以下 function
-getCredentials();
+// getCredentials();
 async function getCredentials() {
   try {
     const token = fs.readFileSync("/root/.oauth/oauth.json", "utf8");

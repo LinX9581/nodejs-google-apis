@@ -1,5 +1,5 @@
 import express from "express";
-import * as googleApis from "../api/googleApis/gaCustom";
+import * as googleApis from "../api/googleApis/gaCustom.js";
 const router = express.Router();
 
 let allIds = config.gaViewId.ga4AllIds;

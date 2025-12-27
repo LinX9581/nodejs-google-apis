@@ -1,111 +1,101 @@
-import { getGaRtData, getGaData } from "./googleApis";
-import { BetaAnalyticsDataClient } from "@google-analytics/data";
+import { getGaAuth } from './googleAuth.js'
 
-// GA4
-const analyticsDataClient = new BetaAnalyticsDataClient({
-  credentials: {
-    client_email: config.google.client_email,
-    private_key: config.google.private_key,
-  },
-});
+// 使用統一認證模組獲取 Analytics Data Client
+const analyticsDataClient = getGaAuth()
 
 export async function ga4RtCustom(propertyId, startDate, endDate, metrics, dimensions, filter, order, results) {
   try {
-    if (filter === "") filter = undefined;
-    if (dimensions === "") dimensions = undefined;
-    if (order === "") order = undefined;
+    if (filter === '') filter = undefined
+    if (dimensions === '') dimensions = undefined
+    if (order === '') order = undefined
 
     let params = {
       property: `properties/${propertyId}`,
-      dateRanges: [
-        {
-          startDate: startDate,
-          endDate: endDate,
-        },
-      ],
+      dateRanges: [{
+        startDate: startDate,
+        endDate: endDate
+      }],
       metrics: metrics,
       dimensions: dimensions,
       orderBys: order,
-      limit: results,
-    };
+      limit: results
+    }
 
-    params["dimensionFilter"] = filter?.dimensionFilter;
-    params["metricFilter"] = filter?.metricFilter;
+    params['dimensionFilter'] = filter?.dimensionFilter
+    params['metricFilter'] = filter?.metricFilter
 
-    const [response] = await analyticsDataClient.runRealtimeReport(params);
-
-    let ga4DimenstionArray = [];
-    let ga4MetricsArray = [];
-    let ga4Data = [];
+    const [response] = await analyticsDataClient.runRealtimeReport(params)
+    
+    let ga4DimenstionArray = []
+    let ga4MetricsArray = []
+    let ga4Data = []
 
     for (let i = 0; i < metrics.length; i++) {
-      ga4MetricsArray = [];
+      ga4MetricsArray = []
       response.rows.forEach((row) => {
-        ga4MetricsArray.push(row.metricValues[i].value);
-      });
-      ga4Data[metrics[i].name] = ga4MetricsArray;
+        ga4MetricsArray.push(row.metricValues[i].value)
+      })
+      ga4Data[metrics[i].name] = ga4MetricsArray
     }
 
     for (let i = 0; i < dimensions.length; i++) {
-      ga4DimenstionArray = [];
+      ga4DimenstionArray = []
       response.rows.forEach((row) => {
-        ga4DimenstionArray.push(row.dimensionValues[i].value);
-      });
-      ga4Data[dimensions[i].name] = ga4DimenstionArray;
+        ga4DimenstionArray.push(row.dimensionValues[i].value)
+      })
+      ga4Data[dimensions[i].name] = ga4DimenstionArray
     }
-    return ga4Data;
+    return ga4Data
   } catch (error) {
-    return "error: " + error;
+    return 'error: ' + error
   }
 }
 
 export async function ga4Custom(propertyId, startDate, endDate, metrics, dimensions, filter, order, results) {
   try {
-    if (filter === "") filter = undefined;
-    if (dimensions === "") dimensions = undefined;
-    if (order === "") order = undefined;
+    if (filter === '') filter = undefined
+    if (dimensions === '') dimensions = undefined
+    if (order === '') order = undefined
 
     let params = {
       property: `properties/${propertyId}`,
-      dateRanges: [
-        {
-          startDate: startDate,
-          endDate: endDate,
-        },
-      ],
+      dateRanges: [{
+        startDate: startDate,
+        endDate: endDate
+      }],
       metrics: metrics,
       dimensions: dimensions,
       limit: results,
-    };
+    }
 
-    params["dimensionFilter"] = filter?.dimensionFilter;
-    params["metricFilter"] = filter?.metricFilter;
-    params["orderBys"] = order;
-
-    const [response] = await analyticsDataClient.runReport(params);
-
-    let ga4DimenstionArray = [];
-    let ga4MetricsArray = [];
-    let ga4Data = [];
+    params['dimensionFilter'] = filter?.dimensionFilter
+    params['metricFilter'] = filter?.metricFilter
+    params['orderBys'] = order
+    
+    const [response] = await analyticsDataClient.runReport(params)
+    
+    let ga4DimenstionArray = []
+    let ga4MetricsArray = []
+    let ga4Data = []
 
     for (let i = 0; i < metrics.length; i++) {
-      ga4MetricsArray = [];
+      ga4MetricsArray = []
       response.rows.forEach((row) => {
-        ga4MetricsArray.push(row.metricValues[i].value);
-      });
-      ga4Data[metrics[i].name] = ga4MetricsArray;
+        ga4MetricsArray.push(row.metricValues[i].value)
+      })
+      ga4Data[metrics[i].name] = ga4MetricsArray
     }
 
     for (let i = 0; i < dimensions.length; i++) {
-      ga4DimenstionArray = [];
+      ga4DimenstionArray = []
       response.rows.forEach((row) => {
-        ga4DimenstionArray.push(row.dimensionValues[i].value);
-      });
-      ga4Data[dimensions[i].name] = ga4DimenstionArray;
+        ga4DimenstionArray.push(row.dimensionValues[i].value)
+      })
+      ga4Data[dimensions[i].name] = ga4DimenstionArray
     }
-    ga4Data["dataLossFromOtherRow"] = response.metadata.dataLossFromOtherRow;
-    return ga4Data;
+    ga4Data['dataLossFromOtherRow'] = response.metadata.dataLossFromOtherRow
+    return ga4Data
   } catch (error) {
-    return "error: " + error;
+    return 'error: ' + error
   }
 }

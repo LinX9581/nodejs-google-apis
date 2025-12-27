@@ -1,4 +1,4 @@
-import * as googleApis from "../../api/googleApis/gaCustom";
+import * as googleApis from "../../api/googleApis/gaCustom.js";
 
 let allIds = config.gaViewId.ga4AllIds;
 

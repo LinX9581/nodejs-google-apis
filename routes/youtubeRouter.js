@@ -1,6 +1,6 @@
-import * as youtube from "../component/youtube/youtubeSample";
+import * as youtube from "../component/youtube/youtubeSample.js";
 import express from "express";
-import config from "../config"; // 假設 config 從某處匯入
+import config from "../config.js"; // 假設 config 從某處匯入
 
 const router = express.Router();
 
