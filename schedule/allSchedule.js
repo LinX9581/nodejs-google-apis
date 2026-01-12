@@ -1,9 +1,9 @@
 import * as googleApis from "../api/googleApis/gaCustom.js";
 import '../component/bigquery/bigquery.js';
 import '../component/gs/sheetSample.js';
-import '../component/youtube/youtubeSample.js';
 import '../component/ga/gaSample.js';
 import config from "../config.js";
+// import '../component/youtube/youtubeSample.js';
 
 // test()
 export async function test() {
